@@ -1,11 +1,11 @@
-var app = require("koa")(),
-  logger = require("koa-logger"),
-  json = require("koa-json"),
-  views = require("koa-views"),
-  onerror = require("koa-onerror");
+const app = require("koa")();
+const logger = require("koa-logger");
+const json = require("koa-json");
+const views = require("koa-views");
+const onerror = require("koa-onerror");
 
-var index = require("./routes/index");
-var users = require("./routes/users");
+const index = require("./routes/index");
+const users = require("./routes/users");
 
 // error handler
 onerror(app);
@@ -21,10 +21,37 @@ app.use(require("koa-bodyparser")());
 app.use(json());
 app.use(logger());
 
+// add jwt middlewares
+// app.use((ctx, next) => {
+//   next().catch(err => {
+//     if (err.status === 401) {
+//       ctx.status = 401;
+//       ctx.body = {
+//         data: null,
+//         message: "token无效",
+//         status: false
+//       };
+//     } else {
+//       throw err;
+//     }
+//   });
+// });
+
+// app.use(
+//   koaJwt({ secret: "WFT_DSA" }).unless({
+//     path: [
+//       /^\/api\/users\/login/,
+//       /^\/api\/users\/register/,
+//       /^\/api\/users\/getSMS/,
+//       /^\/api\/users\/forget/
+//     ]
+//   })
+// );
+
 app.use(function*(next) {
-  var start = new Date();
+  const start = new Date();
   yield next;
-  var ms = new Date() - start;
+  const ms = new Date() - start;
   console.log("%s %s - %s", this.method, this.url, ms);
 });
 
