@@ -1,8 +1,37 @@
 # 使用 pm2 自动化部署 Node 项目
 
+> 2020-01-01 18:00:19
+
+
+
 使用 pm2 deploy 来实现 Node 项目自动部署。
 
 > 个人项目，加上是最低配的阿里云服务器，因此采用这个。公司项目可以上 K8S + Docker 。
+
+
+
+## 零、如何启动项目
+
+```bash
+# 本地安装pm2
+npm install -g pm2
+
+git clone https://github.com/zhongxia245/pm2-depoly-node-demo.git
+
+cd pm2-depoly-node-demo
+# 复制 pm2 部署配置模板，并改成自己服务器信息
+cp deploy.yaml.bak deploy.yaml
+
+npm install 
+npm start
+
+# 如何部署
+# 第一次部署
+npm run server:setup
+
+# 更新部署
+npm run server:update
+```
 
 
 
@@ -109,22 +138,10 @@ deploy: # 部署脚本
 
 
 
-## 四、服务器安全问题
-
-像这个例子一样，因为不是私有git 仓库，直接把 `deploy.yaml` 配置上传到了服务器上，那么服务器的用户名，ip 地址，就泄露了，其他人有可能根据你这个信息，黑进你的服务器。
-
-
-
-那么如何做好安全防范呢？
-
-### 1、不上传deploy.yaml 到公有仓库
-
-既然这个会泄露服务器信息，那么就不上传这个。
-
-
-
 
 
 ## 终、参考文章
+
+> 主要是学习参考这个文章，然后实现这个一个 DEMO项目。
 
 1. [使用 pm2 自动化部署 node 项目](https://juejin.im/post/5b823506e51d4538d517662f)
